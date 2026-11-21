@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>30 天选题打卡</title>
+<meta name="description" content="产品求职方向 30 天日更选题计划与打卡，每个选题附对标爆款链接">
+<style>
+:root{
+  --bg:#f7f6f3; --card:#fff; --ink:#1f1f1f; --sub:#6b6b6b; --line:#e7e4de;
+  --accent:#e2364d; --accent-soft:#fde8eb; --ok:#1f8a5b; --ok-soft:#e3f4ec;
+  --big:#c2410c; --big-soft:#ffedd5; --low:#1d4ed8; --low-soft:#dbeafe;
+  --tag:#f1efea;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#151515; --card:#1f1f1f; --ink:#ececec; --sub:#a3a3a3; --line:#333;
+    --accent:#ff5a70; --accent-soft:#3a1d22; --ok:#4ade80; --ok-soft:#173226;
+    --big:#fb923c; --big-soft:#3b2414; --low:#7aa2ff; --low-soft:#1b2747; --tag:#2a2a2a;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#151515; --card:#1f1f1f; --ink:#ececec; --sub:#a3a3a3; --line:#333;
+  --accent:#ff5a70; --accent-soft:#3a1d22; --ok:#4ade80; --ok-soft:#173226;
+  --big:#fb923c; --big-soft:#3b2414; --low:#7aa2ff; --low-soft:#1b2747; --tag:#2a2a2a;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+.wrap{max-width:880px;margin:0 auto;padding:24px 16px 64px}
+header h1{font-size:24px;margin:0 0 4px}
+header p{margin:0;color:var(--sub);font-size:14px}
+.stats{display:flex;gap:12px;margin:18px 0 10px;flex-wrap:wrap}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 14px;min-width:110px;flex:1}
+.stat b{display:block;font-size:22px;font-variant-numeric:tabular-nums}
+.stat span{color:var(--sub);font-size:13px}
+.bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin:6px 0 18px}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.toolbar button{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:6px 12px;border-radius:99px;font-size:13px;cursor:pointer}
+.toolbar button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.legend{font-size:13px;color:var(--sub);margin:4px 0 8px}
+h2.week{font-size:17px;margin:28px 0 2px}
+.week-sub{color:var(--sub);font-size:13px;margin:0 0 10px}
+.day{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:10px 0;display:grid;grid-template-columns:auto 1fr;gap:4px 14px}
+.day.today{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+.day.done{opacity:.72}
+.day.done .title{text-decoration:line-through;text-decoration-color:var(--sub)}
+.check{grid-row:1 / span 3;display:flex;flex-direction:column;align-items:center;gap:2px;padding-top:2px}
+.check input{width:22px;height:22px;accent-color:var(--ok);cursor:pointer}
+.check small{font-size:11px;color:var(--sub)}
+.meta{font-size:13px;color:var(--sub);display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.meta .d{font-weight:600;color:var(--ink)}
+.pill{background:var(--tag);border-radius:6px;padding:0 7px;font-size:12px;line-height:20px}
+.pill.today{background:var(--accent);color:#fff}
+.title{font-size:16px;font-weight:600;margin:2px 0}
+.why{font-size:13.5px;color:var(--sub);margin:0}
+.ref{grid-column:2;margin-top:8px;border-top:1px dashed var(--line);padding-top:8px;font-size:13.5px}
+.ref a{color:var(--accent);text-decoration:none;font-weight:500;word-break:break-all}
+.ref a:hover{text-decoration:underline}
+.ref .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.ref .num{color:var(--sub);font-variant-numeric:tabular-nums}
+.ref .q{color:var(--sub);font-size:12.5px;margin-top:3px}
+.ref .q code{background:var(--tag);padding:0 5px;border-radius:4px;font-family:inherit}
+.lbl{font-size:12px;font-weight:600;border-radius:6px;padding:0 7px;line-height:20px;white-space:nowrap}
+.lbl.big{background:var(--big-soft);color:var(--big)}
+.lbl.low{background:var(--low-soft);color:var(--low)}
+.lbl.both{background:linear-gradient(90deg,var(--big-soft),var(--low-soft));color:var(--big)}
+.mine{grid-column:2;margin-top:8px;display:none;gap:8px;flex-wrap:wrap}
+.day.done .mine{display:flex}
+.mine input{flex:1;min-width:180px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;padding:6px 9px;font-size:13px}
+.mine input.n{flex:0 0 110px;min-width:0}
+footer{margin-top:36px;color:var(--sub);font-size:12.5px}
+footer button{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:4px 10px;border-radius:8px;font-size:12px;cursor:pointer;margin-right:6px}
+@media (max-width:520px){
+  .day{padding:12px;gap:4px 10px}
+  .title{font-size:15px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>30 天选题打卡</h1>
+    <p id="range"></p>
+  </header>
+
+  <div class="stats">
+    <div class="stat"><b id="sDone">0/30</b><span>已发布</span></div>
+    <div class="stat"><b id="sStreak">0</b><span>连续打卡天数</span></div>
+    <div class="stat"><b id="sToday">—</b><span>今天该发</span></div>
+  </div>
+  <div class="bar"><i id="bar"></i></div>
+
+  <div class="toolbar" id="filters">
+    <button data-f="all" class="on">全部</button>
+    <button data-f="todo">未完成</button>
+    <button data-f="week">本周</button>
+    <button data-f="video">视频</button>
+  </div>
+  <div class="legend">
+    <span class="lbl big">大爆款</span> 点赞 ≥ 5000，不论粉丝量
+    <span class="lbl low">低粉爆款</span> 作者粉丝 ≤ 1 万，且点赞 ≥ 1000（或 ≥ 500 且赞粉比 ≥ 3）
+    每条对标都附上了找到它用的搜索词。
+  </div>
+
+  <main id="list"></main>
+
+  <footer>
+    <p>打卡记录只保存在当前浏览器里。换设备前可以先导出：</p>
+    <button id="exp">导出打卡记录</button><button id="imp">导入</button>
+    <input type="file" id="file" accept="application/json" hidden>
+    <p id="gen"></p>
+  </footer>
+</div>
+
+<script src="plan.js"></script>
+<script>
+(function(){
+  var P = window.PLAN || {days:[],weeks:[]};
+  var KEY = 'xhs-30day-checkin-v1';
+  var state = {};
+  try { state = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e) { state = {}; }
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e) {} }
+
+  function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  function safeUrl(u){ return /^https:\/\/www\.xiaohongshu\.com\//.test(u || '') ? u : ''; }
+  function ymd(d){ return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
+  var todayStr = ymd(new Date());
+  var WD = ['日','一','二','三','四','五','六'];
+  function fmt(n){ return n >= 10000 ? (n/10000).toFixed(1).replace(/\.0$/,'') + '万' : String(n); }
+  function lblClass(l){ return l.indexOf('·') > -1 ? 'both' : (l.indexOf('大') > -1 ? 'big' : 'low'); }
+
+  var filter = 'all';
+  try { filter = localStorage.getItem(KEY + ':f') || 'all'; } catch(e) {}
+
+  function weekOf(dateStr){
+    for (var i = 0; i < P.weeks.length; i++) if (P.weeks[i].days.indexOf(dateStr) > -1) return i;
+    return -1;
+  }
+
+  function render(){
+    var curWeek = weekOf(todayStr);
+    var html = '';
+    P.weeks.forEach(function(w, wi){
+      var days = P.days.filter(function(d){ return w.days.indexOf(d.date) > -1; }).filter(function(d){
+        if (filter === 'todo') return !(state[d.date] && state[d.date].done);
+        if (filter === 'week') return wi === curWeek;
+        if (filter === 'video') return /视频/.test(d.format);
+        return true;
+      });
+      if (!days.length) return;
+      html += '<h2 class="week">' + esc(w.title) + '</h2><p class="week-sub">' + esc(w.goal) + '</p>';
+      days.forEach(function(d){
+        var s = state[d.date] || {};
+        var dt = new Date(d.date + 'T00:00:00');
+        var isToday = d.date === todayStr;
+        var r = d.ref || {};
+        var url = safeUrl(r.url);
+        html += '<article class="day' + (s.done ? ' done' : '') + (isToday ? ' today' : '') + '" id="d' + d.n + '">' +
+          '<label class="check"><input type="checkbox" data-date="' + d.date + '"' + (s.done ? ' checked' : '') + '><small>打卡</small></label>' +
+          '<div class="meta"><span class="d">D' + d.n + ' · ' + (dt.getMonth()+1) + '/' + dt.getDate() + '（' + WD[dt.getDay()] + '）</span>' +
+            (isToday ? '<span class="pill today">今天</span>' : '') +
+            '<span class="pill">' + esc(d.format) + '</span><span class="pill">' + esc(d.type) + '</span></div>' +
+          '<div class="title">' + esc(d.title) + '</div>' +
+          '<p class="why">' + esc(d.purpose) + '</p>' +
+          '<div class="ref">' +
+            (url ? '<div class="row"><span class="lbl ' + lblClass(r.label) + '">' + esc(r.label) + '</span>' +
+              '<a href="' + esc(url) + '" target="_blank" rel="noopener noreferrer">' + esc(r.title) + ' ↗</a></div>' +
+              '<div class="row num">' + esc(r.author) + ' · ' + (r.type === 'video' ? '视频' : '图文') + ' · 👍 ' + fmt(r.likes) + ' · 作者 ' + (r.fans != null ? fmt(r.fans) + ' 粉' : '粉丝未知') + '</div>' +
+              (r.copy ? '<div class="q">参考：' + esc(r.copy) + '</div>' : '') +
+              '<div class="q">找到它的搜索词：<code>' + esc(r.query) + '</code></div>'
+            : '<div class="q">暂无对标</div>') +
+          '</div>' +
+          '<div class="mine"><input data-date="' + d.date + '" data-k="link" placeholder="我发布的笔记链接" value="' + esc(s.link || '') + '">' +
+            '<input class="n" data-date="' + d.date + '" data-k="likes" placeholder="点赞数" inputmode="numeric" value="' + esc(s.likes || '') + '"></div>' +
+        '</article>';
+      });
+    });
+    document.getElementById('list').innerHTML = html || '<p class="why">这个筛选下没有选题。</p>';
+    stats();
+  }
+
+  function stats(){
+    var done = P.days.filter(function(d){ return state[d.date] && state[d.date].done; }).length;
+    document.getElementById('sDone').textContent = done + '/' + P.days.length;
+    document.getElementById('bar').style.width = (P.days.length ? done / P.days.length * 100 : 0) + '%';
+    // 连续打卡：从今天（或昨天）往前数已完成的天
+    var dates = P.days.map(function(d){ return d.date; });
+    var i = dates.indexOf(todayStr);
+    if (i === -1) i = todayStr > dates[dates.length-1] ? dates.length - 1 : -1;
+    if (i > -1 && !(state[dates[i]] && state[dates[i]].done)) i--;
+    var streak = 0;
+    for (; i >= 0 && state[dates[i]] && state[dates[i]].done; i--) streak++;
+    document.getElementById('sStreak').textContent = streak;
+    var t = P.days.filter(function(d){ return d.date === todayStr; })[0];
+    document.getElementById('sToday').textContent = t ? 'D' + t.n : (todayStr < dates[0] ? '未开始' : '已结束');
+  }
+
+  document.getElementById('list').addEventListener('change', function(e){
+    var el = e.target, date = el.getAttribute('data-date');
+    if (!date) return;
+    state[date] = state[date] || {};
+    if (el.type === 'checkbox') { state[date].done = el.checked; if (el.checked) state[date].at = Date.now(); save(); render(); }
+    else { state[date][el.getAttribute('data-k')] = el.value.trim(); save(); }
+  });
+  document.getElementById('filters').addEventListener('click', function(e){
+    var f = e.target.getAttribute('data-f'); if (!f) return;
+    filter = f; try { localStorage.setItem(KEY + ':f', f); } catch(err) {}
+    setActive(); render();
+  });
+  function setActive(){
+    [].forEach.call(document.querySelectorAll('#filters button'), function(b){ b.classList.toggle('on', b.getAttribute('data-f') === filter); });
+  }
+  document.getElementById('exp').onclick = function(){
+    var blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json'});
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = '30天选题打卡记录.json'; a.click();
+  };
+  document.getElementById('imp').onclick = function(){ document.getElementById('file').click(); };
+  document.getElementById('file').onchange = function(e){
+    var f = e.target.files[0]; if (!f) return;
+    var rd = new FileReader();
+    rd.onload = function(){ try { var o = JSON.parse(rd.result); if (o && typeof o === 'object') { state = o; save(); render(); } } catch(err) { alert('文件格式不对'); } };
+    rd.readAsText(f);
+  };
+
+  if (P.days.length) {
+    var a = new Date(P.days[0].date + 'T00:00:00'), b = new Date(P.days[P.days.length-1].date + 'T00:00:00');
+    document.getElementById('range').textContent = (a.getMonth()+1) + '/' + a.getDate() + ' – ' + (b.getMonth()+1) + '/' + b.getDate() + ' · 每天一篇 · 勾选即打卡';
+  }
+  document.getElementById('gen').textContent = P.generated ? '对标数据采集于 ' + P.generated + '。小红书链接里的 token 可能过期，打不开时用卡片上的搜索词在 App 里搜标题。' : '';
+  setActive(); render();
+  var td = document.querySelector('.day.today'); if (td && filter === 'all') td.scrollIntoView({block:'center'});
+})();
+</script>
+</body>
+</html>
